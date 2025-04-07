@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-QS40HB04KY"></script>
+		<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'G-QS40HB04KY');
+		</script>
+
+		<title>accountbuilder</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="https://uphoria.pro/css/style.css">
+		<script>
+    const useFetch = async ({customeUrl = "", path, method, data, headers = null, contentType = "application/json", responseType = "application/json",}) => {
+        try {
+            const payload = {
+                method: method,
+                redirect: 'manual',
+                headers: headers ? headers : {
+                    'Accept': 'application/json',
+                },
+                body: contentType == "application/json" ? JSON.stringify(data) : data,
+            }
+
+            if (contentType == "application/json") {
+                payload.headers['Content-Type'] = "application/json"
+            }
+
+            const response = await fetch(customeUrl ? customeUrl : `http://localhost:8158/I've done.html${path}`, payload)
+
+            if (response.status == 401) {
+                window.location.replace("http://localhost:8158/I've done.html");
+                return;
+            }
+
+            const res = await response.json();
+            res.status_code = response.status
+            return res;
+        } catch (err) {
+            throw err
+        }
+    }
+
+    const loadSystemTheme = () => {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add("dark-theme")
+            if (document.body.classList.contains("light-theme")) {
+                document.body.classList.remove("light-theme")
+            }
+        } else {
+            document.body.classList.add("light-theme")
+            if (document.body.classList.contains("dark-theme")) {
+                document.body.classList.remove("dark-theme")
+            }
+        }
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            const newColorScheme = event.matches ? "dark" : "light";
+
+            if (newColorScheme == "light") {
+                document.body.classList.add("light-theme")
+
+                if (document.body.classList.contains("dark-theme")) {
+                    document.body.classList.remove("dark-theme")
+                }
+            }
+
+            if (newColorScheme == "dark") {
+                document.body.classList.add("dark-theme")
+
+                if (document.body.classList.contains("light-theme")) {
+                    document.body.classList.remove("light-theme")
+                }
+            }
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        document.body.classList.add("dark-theme")
+        return
+        const theme_mode = localStorage.getItem('theme_mode')
+		if (theme_mode == "light") {
+			document.body.classList.add("light-theme")
+		}
+
+		if (theme_mode == "dark") {
+			document.body.classList.add("dark-theme")
+		}
+
+        if (theme_mode == "system") {
+			loadSystemTheme()
+		}
+    });
+
+    class MessageClass {
+        success (message, cb = () => {} ) {
+            let wrapper
+            let content
+            if (document.querySelector('.lofty-message-wrapper')) {
+                wrapper = document.querySelector('.lofty-message-wrapper')
+                content = '<div class="lofty-message-box lofty-message-success"><i class="fa-regular fa-circle-check"></i><span>'+message+'</span></div>';
+                wrapper.innerHTML = content
+            } else {
+                const appWrapper = document.getElementById('root')
+                wrapper = document.createElement("div");
+                wrapper.classList.add("lofty-message-wrapper")
+                appWrapper.appendChild(wrapper)
+
+                content = '<div class="lofty-message-box lofty-message-success"><span>'+message+'</span></div>';
+                wrapper.innerHTML = content
+            }
+
+            if (wrapper.classList.contains("lofty-message-wrapper-out")) {
+                wrapper.classList.remove("lofty-message-wrapper-out")
+            }
+
+            wrapper.style.display = "flex"
+            setTimeout(() => {
+                wrapper.classList.add("lofty-message-wrapper-out")
+                setTimeout(() => {
+                    wrapper.style.display = "none"
+                    cb()
+                }, 250)
+            }, 5000)
+        }
+
+        error (message, cb = () => {} ) {
+            let wrapper
+            let content
+            let displayMessage = "An error occurred";
+            displayMessage = message
+
+            if (document.querySelector('.lofty-message-wrapper')) {
+                wrapper = document.querySelector('.lofty-message-wrapper')
+                content = '<div class="lofty-message-box lofty-message-error"><span>'+displayMessage+'</span></div>';
+                wrapper.innerHTML = content
+            } else {
+                const appWrapper = document.getElementById('root')
+                wrapper = document.createElement("div");
+                wrapper.classList.add("lofty-message-wrapper")
+                appWrapper.appendChild(wrapper)
+
+                content = '<div class="lofty-message-box lofty-message-error"><span>'+displayMessage+'</span></div>';
+                wrapper.innerHTML = content
+            }
+
+            if (wrapper.classList.contains("lofty-message-wrapper-out")) {
+                wrapper.classList.remove("lofty-message-wrapper-out")
+            }
+
+            wrapper.style.display = "flex"
+
+            setTimeout(() => {
+                wrapper.classList.add("lofty-message-wrapper-out")
+
+                setTimeout(() => {
+                    wrapper.style.display = "none"
+                    cb()
+                }, 250)
+            }, 5000)
+        }
+    }
+
+    const Message = new MessageClass()
+</script>		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" rel="stylesheet" />
+	</head>
+
+	<body id="root">
+
+	
+	<style>.site-header {display: flex;flex-direction: column;width: 100%;position: relative;z-index: 999;} .site-header .top-bar {display: flex;justify-content: space-between;align-items: center;position: relative;width: 100%;height: 90px;padding: 20px 8%;} .site-header .top-bar .logo {display: flex;align-items: center;gap: 10px;}.site-header .top-bar .logo img {height: 30px;}.site-header .top-bar .logo h2 {color: var(--text-color);font-size: 16px;font-weight: 600;} .site-header .top-bar .toggle-menu {display: flex;justify-content: center;align-items: center;flex-direction: column;padding: 0px 8px;width: 35px;height: 35px;cursor: pointer;}.site-header .top-bar .toggle-menu span, .site-header .top-bar .toggle-menu::before, .site-header .top-bar .toggle-menu::after {content: '';display: block;width: 100%;height: 1px;background-color: var(--text-color);}.site-header .top-bar .toggle-menu span {margin: 4px 0px;} .site-header .top-bar .site-nav {display: none;position: absolute;top: 0px;left: 0px;width: 100%;height: 100vh;z-index: 9999;}.site-header .top-bar .site-nav .menu-content {background-color: rgba(217, 217, 217, 0.1);}.site-header .top-bar .site-nav .menu-content::before {content: '';display: block;width: 100%;height: 100%;top: 0px;left: 0px;position: absolute;background-color: rgba(17, 17, 17, 1);cursor: pointer;z-index: 1;border-radius: 0px 20px 10px 0px;box-shadow: inset -76.17px 76.17px 76.17px 0px rgba(255, 255, 255, 0.1), inset 76.17px -76.17px 76.17px 0px rgba(165, 165, 165, 0.1);}.site-header .top-bar .site-nav::before {content: '';display: block;width: 100%;height: 100%;top: 0px;left: 0px;position: absolute;background-color: #0006;cursor: pointer;z-index: 1;}.site-header .top-bar .site-nav nav {position: relative;width: 240px;left: -240px;transition: all 0.5s ease-in-out;}.site-header .top-bar .site-nav nav .nav-logo {display: flex;padding: 20px 20px;position: relative;z-index: 2;}.site-header .top-bar .site-nav nav .nav-logo img {height: 40px;}.site-header .top-bar .site-nav nav ul.menu-links {position: relative;margin-bottom: 20px;z-index: 2;}.site-header .top-bar .site-nav nav ul.menu-links li {padding: 0px 20px;}.site-header .top-bar .site-nav nav ul.menu-links li a {display: block;font-size: 13px;color: var(--text-color);font-weight: 600;padding: 15px 0px;text-transform: uppercase;border-bottom: 0px solid #e1aead66;}.site-header .top-bar .site-nav nav ul.auth-menu {height: fit-content;align-self: center;position: relative;z-index: 2;}.site-header .top-bar .site-nav nav ul.auth-menu li {height: fit-content;}.site-header .top-bar .site-nav nav ul.auth-menu li a {display: block;height: fit-content;}.site-header .top-bar .site-nav nav ul.auth-menu li a img {height: 30px;} .site-header .actions {display: flex;justify-content: center;align-items: center;position: absolute;left: 0px;bottom: 20px;width: 100%;} .site-header .actions a {display: flex;justify-content: center;align-items: center;width: 150px;height: 45px;border-radius: 8px;font-size: 16px;font-weight: 500;background-color: var(--primary-color);color: var(--text-color);} @media screen and (min-width: 960px) { .site-header .top-bar {justify-self: unset;}}@media screen and (min-width: 960px) {.site-header .top-bar .toggle-menu {display: none;}}@media screen and (min-width: 880px) {.site-header .top-bar .site-nav .menu-content::before {display: none;}.site-header .top-bar .site-nav .menu-content {background-color: unset;}}@media screen and (min-width: 960px) {.site-header .top-bar .site-nav::before {display: none;}}@media screen and (min-width: 960px) {.site-header .top-bar .site-nav {display: flex;align-items: center;position: unset;background-color: unset;height: unset;width: unset;flex: 1;}}@media screen and (min-width: 960px) {.site-header .top-bar .site-nav nav {display: flex;justify-content: space-between;flex-direction: row;background-color: unset;flex: 1;width: unset;height: unset;left: unset;}.site-header .top-bar .site-nav nav::before {content: '';}}@media screen and (min-width: 960px) {.site-header .top-bar .site-nav nav .nav-logo {display: none;}}@media screen and (min-width: 960px) {.site-header .top-bar .site-nav nav ul.menu-links {display: flex;align-items: center;border-radius: 8px;margin-bottom: 0px;margin: 0px auto;border: 1px solid rgba(223, 223, 223, 1);box-shadow: inset -27.67px 27.67px 27.67px 0px rgba(255, 255, 255, 0.1), inset 27.67px -27.67px 27.67px 0px rgba(13, 13, 13, 0.1);}}@media screen and (min-width: 960px) {.site-header .top-bar .site-nav nav ul.menu-links li {padding: 0px;}}@media screen and (min-width: 960px) {.site-header .top-bar .site-nav nav ul.menu-links li a {display: flex;flex-direction: row;justify-content: center;padding: 15px 20px;}}</style>
+
+
+	<header class="site-header home-header">
+		<div class="top-bar">
+			<a href="/" class="logo">
+				<img src="/assets/img/logo.png" alt="">
+				<h2>ACCOUNTBUILDER</h2>
+			</a>
+
+			<div class="site-nav">
+				<nav class="menu-content">
+					<div class="nav-logo">
+						<img src="/assets/img/logo.png" alt="">
+						<!-- <span>Uphoria</span> -->
+					</div>
+
+					<ul class="menu-links">
+						<li><a href="/">Home</a></li>
+						<li><a href="http://localhost:8158/I've done.html">Dashboard</a></li>
+						<li><a href="http://localhost:8158/I've done.html">Earners</a></li>
+						<li><a href="http://localhost:8158/I've done.html">Coupon Vendors</a></li>
+						<li><a href="/coupon">Coupon</a></li>
+						<li><a href="http://localhost:8158/I've done.html">Digital assest</a></li>
+					</ul>
+					<ul class="auth-menu">
+						
+						<li>
+							<a href="/signin">
+								<img src="/assets/img/signup-img.png" alt="">
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+
+			<div class="toggle-menu">
+				<span></span>
+			</div>
+		</div>
+	</header>
+
+	<script>
+		let toggleMenu = document.querySelector(".toggle-menu")
+		let menuBox = document.querySelector(".site-nav")
+
+		toggleMenu.addEventListener('click', () => {
+			menuBox.style.display = "flex";
+			setTimeout(() => {
+				menuBox.querySelector("nav").style.left = "0px"
+			}, 200)
+		})
+
+		menuBox.addEventListener('click', (e) => {
+			if (e.target == menuBox) {
+				menuBox.querySelector("nav").style.left = "-240px"
+				setTimeout(() => {
+					menuBox.style.display = "none";
+				}, 600)
+			}
+		})
+
+	</script>
+	<div class="site-wrapper"> <!-- wrapper -->
+		<!-- container-->
+		<div class="container">
+
+	<style>.home-page {background-color: #111111;padding: 0px 0px 0px 0px;position: relative;} .home-page .hero-wrapper {padding: 50px 8%;} .home-page .hero-wrapper .hero-content {width: 100%;max-width: 1240px;margin: 0px auto;}.home-page .hero-wrapper .hero-content .text-content {display: flex;flex-direction: column;align-items: center;max-width: 880px;margin: 0px auto;position: relative;z-index: 2;}.home-page .hero-wrapper .hero-content .text-content h2 {font-size: 40px;text-align: center;font-weight: 800;color: var(--light-text-color);margin-bottom: 30px;}.home-page .hero-wrapper .hero-content .text-content h2 span {background: -webkit-linear-gradient(#F12C36, #AB15E0);-webkit-background-clip: text;-webkit-text-fill-color: transparent;font-weight: 800;}.home-page .hero-wrapper .hero-content .text-content p {text-align: center;font-size: 16px;line-height: 24px;font-weight: 400;color: var(--light-text-color);}.home-page .hero-wrapper .hero-content .text-content .actions {margin-top: 40px;}.home-page .hero-wrapper .hero-content .text-content .actions a {display: flex;justify-content: center;align-items: center;gap: 10px;height: 45px;padding: 0px 20px;width: 240px;border-radius: 22.5px;color: #fff;font-size: 15px;background: linear-gradient(125deg, rgba(241,44,54,1) 0%, rgba(171,21,224,1) 100%);}.home-page .hero-wrapper .hero-content .img-content {position: relative;z-index: 1;display: flex;align-items: center;justify-content: center;margin-top: 40px;width: 100%;}.home-page .hero-wrapper .hero-content .img-content img {position: relative;z-index: 2;width: 100%;} .home-page .trusted-wrapper {padding: 100px 8% 50px 8%;} .home-page .trusted-wrapper .trusted-content {max-width: 1240px;}.home-page .trusted-wrapper .trusted-content h2 {font-size: 30px;font-weight: 700;text-align: center;color: #E6E6E6;margin-bottom: 20px;}.home-page .trusted-wrapper .trusted-content ul {display: flex;justify-content: center;align-items: center;gap: 4%;}.home-page .trusted-wrapper .trusted-content ul li {font-size: 20px;font-weight: 400;color: rgba(230, 230, 230, 0.5);} .home-page .features-wrapper {padding: 50px 8% 100px 8%;} .home-page .features-wrapper .features-content {width: 100%;max-width: 1240px;margin: 0px auto;}.home-page .features-wrapper .features-content h2 {font-size: 30px;font-weight: 700;color: var(--light-text-color);margin-bottom: 40px;text-align: center;}.home-page .features-wrapper .features-content ul {display: flex;flex-direction: column;gap: 40px;}.home-page .features-wrapper .features-content ul li {display: flex;flex-direction: column;align-items: center;color: var(--light-text-color);text-align: center;padding: 30px 20px;border-radius: 8px;border: 1px solid rgba(212, 212, 212, 1);box-shadow: inset -18.23px 18.23px 18.23px 0px rgba(255, 255, 255, 0.1), inset 18.23px -18.23px 18.23px 0px rgba(255, 255, 255, 0.1);}.home-page .features-wrapper .features-content ul li img {height: 40px;margin-bottom: 10px;}.home-page .features-wrapper .features-content ul li h3 {font-size: 18px;font-weight: 600;margin-bottom: 10px;}.home-page .features-wrapper .features-content ul li span {font-size: 14px;font-weight: 400;text-align: center;line-height: 22px;}.home-page .features-wrapper .features-content .meta {display: flex;flex-direction: column;gap: 40px;margin: 0px auto;}.home-page .features-wrapper .features-content .meta .img-wrapper {width: 100%;max-width: 320px;margin: 0px auto;}.home-page .features-wrapper .features-content .meta .text-content p {text-align: center;font-size: 18px;font-weight: 400;line-height: 24px;color: rgba(230, 230, 230, 1);margin-bottom: 20px;}.home-page .features-wrapper .features-content .meta .text-content a {display: flex;justify-content: center;align-items: center;width: 100%;height: 60px;border-radius: 30px;padding: 0px 20px;background-color: rgba(241, 44, 54, 1);color: rgba(230, 230, 230, 1);font-size: 18px;font-weight: 500;}.home-page .features-wrapper .features-content .pricing {margin-top: 100px;}.home-page .features-wrapper .features-content .pricing h4 {font-size: 40px;font-weight: 600;color: rgba(230, 230, 230, 1);margin-bottom: 20px;}.home-page .features-wrapper .features-content .pricing p {font-size: 16px;font-weight: 400;color: rgba(230, 230, 230, 1);} .home-page .offers-wrapper {padding: 100px 8%;} .home-page .offers-wrapper .offers-content {width: 100%;max-width: 1240px;margin: 0px auto;}.home-page .offers-wrapper .offers-content h2 {font-size: 40px;font-weight: 600;padding: 0px 0px 8px 0px;color: rgba(230, 230, 230, 1);border-bottom: 0.5px solid rgba(230, 230, 230, 1);margin-bottom: 100px;}.home-page .offers-wrapper .offers-content ul {display: flex;flex-direction: column;gap: 40px;}.home-page .offers-wrapper .offers-content ul li {max-width: 480px;}.home-page .offers-wrapper .offers-content ul li h3 {color: rgba(230, 230, 230, 1);font-size: 25px;margin-bottom: 30px;}.home-page .offers-wrapper .offers-content ul li p {color: rgba(230, 230, 230, 1);font-size: 14px;font-weight: 400;line-height: 24px;margin-bottom: 10px;}.home-page .offers-wrapper .offers-content ul li a {display: flex;justify-content: center;align-items: center;height: 60px;width: 100%;border-radius: 30px;color: rgba(230, 230, 230, 1);background-color: rgba(241, 44, 54, 1);} .home-page .digital-wrapper {padding: 100px 8%;} .home-page .digital-wrapper .digital-content {width: 100%;max-width: 1240px;margin: 0px auto;}.home-page .digital-wrapper .digital-content h2 {font-size: 40px;font-weight: 600;padding: 0px 0px 8px 0px;color: rgba(230, 230, 230, 1);border-bottom: 0.5px solid rgba(230, 230, 230, 1);margin-bottom: 100px;}.home-page .digital-wrapper .digital-content .container {display: flex;flex-direction: column-reverse;gap: 20px;}.home-page .digital-wrapper .digital-content .container .text-content h3 {font-size: 20px;font-weight: 600;margin-bottom: 20px;color: rgba(230, 230, 230, 1);}.home-page .digital-wrapper .digital-content .container .text-content p {font-size: 15px;font-weight: 400;line-height: 24px;color: rgba(230, 230, 230, 1);}.home-page .digital-wrapper .digital-content .container .img-wrapper {width: 100%;} .home-page .where-wrapper {padding: 100px 8%;} .home-page .where-wrapper .where-content {width: 100%;max-width: 1240px;margin: 0px auto;background: linear-gradient(180deg, rgba(241,44,54,1) 0%, rgba(171,21,224,1) 100%);padding: 1px;border-radius: 8px;}.home-page .where-wrapper .where-content .where-box {display: flex;flex-direction: column;justify-content: center;align-items: center;padding: 40px 20px;background-color: rgba(17, 17, 17, 1);border-radius: 8px;box-shadow: inset -100px 100px 100px 0px rgba(255, 255, 255, 0.1), inset 100px -100px 100px 0px rgba(170, 55, 55, 0.1);}.home-page .where-wrapper .where-content .where-box h3 {font-size: 40px;font-weight: 600;color: rgba(230, 230, 230, 1);text-align: center;margin-bottom: 20px;}.home-page .where-wrapper .where-content .where-box p {font-size: 16px;font-weight: 400;line-height: 25px;color: rgba(230, 230, 230, 1);text-align: center;margin-bottom: 20px;max-width: 640px;}.home-page .where-wrapper .where-content .where-box a {display: flex;justify-content: center;align-items: center;height: 60px;width: 100%;font-size: 20px;font-weight: 600;border-radius: 30px;max-width: 300px;color: rgba(230, 230, 230, 1);background-color: rgba(241, 44, 54, 1);} .home-page .faq-wrapper {padding: 100px 8%;} .home-page .faq-wrapper .faq-content {display: flex;flex-direction: column;width: 100%;max-width: 1240px;margin: 0px auto;gap: 40px;}.home-page .faq-wrapper .faq-content .head {display: flex;flex-direction: column;gap: 10px;flex: 1;}.home-page .faq-wrapper .faq-content .head h2 {font-size: 20px;font-weight: 700;color: rgba(230, 230, 230, 1);}.home-page .faq-wrapper .faq-content .head p {font-size: 16px;font-weight: 400;line-height: 24px;color: rgba(230, 230, 230, 1);margin-bottom: 40px;}.home-page .faq-wrapper .faq-content .head a {display: flex;justify-content: center;align-items: center;height: 60px;width: 100%;color: rgba(230, 230, 230, 1);border-radius: 30px;background-color: rgba(241, 44, 54, 1);}.home-page .faq-wrapper .faq-content ul {flex: 1;}.home-page .faq-wrapper .faq-content ul li {cursor: pointer;}.home-page .faq-wrapper .faq-content ul li .head-content {display: flex;padding: 20px 0px;border-bottom: 1px solid #404a54;}.home-page .faq-wrapper .faq-content ul li .head-content h3 {flex: 1;font-size: 18px;font-weight: 500;color: var(--light-text-color);}.home-page .faq-wrapper .faq-content ul li .head-content i {color: var(--light-text-color);font-size: 14px;}.home-page .faq-wrapper .faq-content ul li p {display: none;color: var(--light-text-color);font-size: 14px;line-height: 24px;} @media screen and (min-width: 960px) {.home-page .hero-wrapper .hero-content {display: flex;justify-content: space-between;align-items: center;}}@media screen and (min-width: 960px) {.home-page .hero-wrapper .hero-content .text-content {margin: 0px 0px;align-items: flex-start;}.home-page .hero-wrapper .hero-content .text-content h2 {font-size: 30px;text-align: unset;}.home-page .hero-wrapper .hero-content .text-content p {font-size: 20px;line-height: 30px;text-align: unset;}}@media screen and (min-width: 880px) {.home-page .hero-wrapper .hero-content .text-content {max-width: 640px;}.home-page .hero-wrapper .hero-content .text-content h2 {font-size: 70px;}.home-page .hero-wrapper .hero-content .text-content p {font-size: 30px;line-height: 39px;}.home-page .hero-wrapper .hero-content .text-content .actions a {height: 60px;padding: 0px 30px;border-radius: 30px;font-size: 17px;}}@media screen and (min-width: 880px) {.home-page .hero-wrapper .hero-content .img-content {max-width: 480px;}}@media screen and (min-width: 880px) {.home-page .trusted-wrapper .trusted-content h2 {font-size: 35px;}}@media screen and (min-width: 880px) {.home-page .trusted-wrapper .trusted-content ul li {font-size: 25px;}}@media screen and (min-width: 480px) {.home-page .features-wrapper .features-content ul {flex-direction: row;flex-wrap: wrap;}}@media screen and (min-width: 640px) {.home-page .features-wrapper .features-content ul li {width: calc(50% - 20px);}}@media screen and (min-width: 880px) {.home-page .features-wrapper .features-content ul li {width: calc(33.33% - 26.66px);}}@media screen and (min-width: 880px) {.home-page .features-wrapper .features-content .meta {flex-direction: row;justify-content: center;max-width: 640px;margin-top: 100px;}.home-page .features-wrapper .features-content .meta .img-wrapper {flex: 1;margin: unset unset;}.home-page .features-wrapper .features-content .meta .text-content {flex: 1;}}@media screen and (min-width: 880px) {.home-page .offers-wrapper .offers-content ul {flex-direction: row;justify-content: space-between;}}@media screen and (min-width: 880px) {.home-page .digital-wrapper .digital-content .container {flex-direction: row;justify-content: space-between;}.home-page .digital-wrapper .digital-content .container .text-content {max-width: 720px;}.home-page .digital-wrapper .digital-content .container .img-wrapper {max-width: 200px;}}@media screen and (min-width: 880px) {.home-page .where-wrapper .where-content .where-box {padding: 70px 20px;}}@media screen and (min-width: 880px) {.home-page .faq-wrapper .faq-content {flex-direction: row;}}@media screen and (min-width: 880px) {.home-page .faq-wrapper .faq-content ul li .head-content h3 {font-size: 22px;}.home-page .faq-wrapper .faq-content ul li .head-content i {font-size: 20px;}}</style>
+
+<div class="home-page">
+    <!-- Hero Section -->
+    <div class="hero-wrapper">
+        <div class="hero-content">
+            <div class="text-content">
+                <h2>A New Dawn <br> <span>in Digital Assets</span></h2>
+                <p>Step into the future with accountbuilder — a platform designed to revolutionize the networking and financial space. accountbuilder isn’t just a platform; it’s a community, a movement, and an ecosystem where opportunities, value, and technology meet. Join the thousands already building their paths to success with ACCOUNTBUILDER!</p>
+
+                <div class="actions">
+                    <a href="http://localhost:8158/I've done.html">
+                        <span>Get Started</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="img-content">
+                <img src="/assets/img/hero-img.png" alt="">
+            </div>
+        </div>
+    </div>
+
+    <!-- Trusted Section -->
+     <div class="trusted-wrapper">
+        <div class="trusted-content">
+            <h2>Trusted By</h2>
+            <ul>
+                <li>Facebook</li>
+                <li>youtube</li>
+                <li>Tiktok</li>
+                <li>Whatsapp</li>
+            </ul>
+        </div>
+     </div>
+
+<!-- Features Section -->
+<style>
+    .features-wrapper,
+    .features-wrapper h3,
+    .features-wrapper span,
+    .features-wrapper p,
+    .features-wrapper a {
+        color: white;
+    }
+</style>
+
+<div class="features-wrapper" style="background-color: #000;">
+    <div class="features-content">
+        <ul>
+            <li>
+                <img src="/assets/img/feature/feature-1-img.png" alt="">
+                <h3>Account management</h3>
+                <span>
+                    We offer a wide range of professional Account and interactive resources to help you master Account improvement skills and achieve personal growth.
+                </span>
+            </li>
+            <li>
+                <img src="/assets/img/feature/feature-2-img.png" alt="">
+                <h3>Monetization</h3>
+                <span>
+                    Become an author and take charge of your earnings by promoting your account, gaining 90% of the value from each transaction maximizing your profit while spending.
+                </span>
+            </li>
+            <li>
+                <img src="/assets/img/feature/feature-3-img.png" alt="">
+                <h3>Social media management</h3>
+                <span>
+                    Manage your social media presence by linking your account, engaging with advanced profit, and participating in platform-sponsored campaigns, providing a consistent income stream through reward.
+                </span>
+            </li>
+            <li>
+                <img src="/assets/img/feature/feature-4-img.png" alt="">
+                <h3>Digital Assets</h3>
+                <span>
+                    Create, buy, sell, and trade unique digital items such as NFTs providing an exciting opportunity to engage in the growing world of blockchain-based assets while gaining financial and non-financial benefits.
+                </span>
+            </li>
+            <li>
+                <img src="/assets/img/feature/feature-5-img.png" alt="">
+                <h3>Account Builder</h3>
+                <span>
+                    A dynamic platform that allows users to buy, sell, and trade digital products, services, and resources, creating a vibrant ecosystem for financial growth and buildup.
+                </span>
+            </li>
+            <li>
+                <img src="/assets/img/feature/feature-1-img.png" alt="">
+                <h3>And More</h3>
+                <span>
+                    AccountBuilder also offers a range of other powerful features, including access to BrainQuest for rewarding learning experiences, a team-building platform, and tools to go viral while you monetize your bank account.
+                </span>
+            </li>
+        </ul>
+
+        <div class="meta">
+            <div class="img-wrapper">
+                <img src="/assets/img/feature/feature-meta-img.png" alt="">
+            </div>
+
+            <div class="text-content">
+                <p>
+                    With AccountBuilder, you get more than just a membership; you gain access to direct sales and incentives, High-Income Skills, and connection with like-minded individuals across the globe.
+                    <br><br>
+                    AccountBuilder is built with trust, reliability, and consistent rewards in mind.
+                </p>
+                <a href="http://localhost:8158/I've done.html" style="color: #fff; text-decoration: underline;">Get Started</a>
+            </div>
+        </div>
+
+        <div class="pricing">
+            <h4>Pricing</h4>
+            <p>
+                Prepare to elevate your financial journey with a platform that prioritizes your growth and success.
+                <br>AccountBuilder offers tailored packages designed for everyone.
+                <br>Our website builds users' accounts and social media accounts.
+            </p>
+        </div>
+    </div>
+</div>
+    
+    <!-- Digital Assets -->
+    <div class="digital-wrapper">
+        <div class="digital-content">
+            <h2>Digital Assets</h2>
+
+            <div class="container">
+                <div class="text-content">
+                    <h3>Collections</h3>
+                    <p>
+                    <br>Explore the World of Digital Assets 
+                    <br>Experience a marketplace like no other with NFTNOOK accountbuilder's exclusive NFT hub.  
+                    <br>
+                    <br>It empowers users to turn their financial stuggel into unique, valuable assets while connecting with a global audience of creators and collectors. With seamless integration, NFTNOOK makes it easy for both beginners and experts to explore the world of accountbuilder.
+                    </p>
+                </div>
+
+                <div class="img-wrapper">
+                    <img src="/assets/img/digital-assets-img.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- AI  Assistant -->
+    <div class="digital-wrapper">
+        <div class="digital-content">
+            <h2>Accountbuilder  Assistant</h2>
+
+            <div class="container">
+                <div class="text-content">
+                    <h3>AI Bot</h3>
+                    <p>An AI assistant provides information, answers questions, offers suggestions, and helps with tasks, enhancing Account management and decision-making for users.</p>
+                </div>
+
+                <div class="img-wrapper">
+                    <img src="/assets/img/ai-assistant-img.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="where-wrapper">
+        <div class="where-content">
+            <div class="where-box">
+                <h3>Ability to Learn Account buldbup Skills on Our Platform </h3>
+                <p>
+                Boost your learning journey with accountbuilder! Gain access to comprehensive resources, interactive lessons, and personalized feedback to master a wide range of valuable skills.  
+                <br>
+                <br>Explore our skill programs now!
+                </p>
+                <a href="http://localhost:8158/I've done.html">Create an Account</a>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Faq Section -->
+    <div class="faq-wrapper">
+        <div class="faq-content">
+            <div class="head">
+                <h2>FAQs</h2>
+                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+                <a href="#">More FAQs</a>
+            </div>
+
+            <ul>
+                <li>
+                    <div class="head-content">
+                        <h3>Where can I get some?</h3>
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+                </li>
+                <li>
+                    <div class="head-content">
+                        <h3>Where can I get some?</h3>
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+                </li>
+                <li>
+                    <div class="head-content">
+                        <h3>Where can I get some?</h3>
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+<style>footer {padding: 10px 10px;} footer .footer-wrapper {gap: 40px;display: flex;flex-direction: column;padding: 50px 8%;border: 1px solid rgba(223, 223, 223, 0.29);border-top: none;box-shadow: inset -76.17px 76.17px 76.17px 0px rgba(255, 255, 255, 0.1), inset 76.17px -76.17px 76.17px 0px rgba(165, 165, 165, 0.1);} footer .footer-wrapper .main-section {display: flex;flex-direction: column;} footer .footer-wrapper .footer-logo {display: flex;flex-direction: column;gap: 40px;}footer .footer-wrapper .footer-logo h3 {font-size: 25px;font-weight: 600;color: rgba(230, 230, 230, 1);text-transform: uppercase;}footer .footer-wrapper .footer-logo p {font-size: 16px;color: rgba(230, 230, 230, 1);}footer .footer-wrapper .footer-logo .social ul {display: flex;gap: 10px;}footer .footer-wrapper .footer-logo .social ul li a {display: block;font-size: 20px;color: var(--text-color);} footer .footer-wrapper .footer-nav {display: flex;flex-direction: column;gap: 40px;}footer .footer-wrapper .footer-nav nav {flex: 1;}footer .footer-wrapper .footer-nav nav ul {display: flex;gap: 10px;}footer .footer-wrapper .footer-nav nav ul li a {color: var(--text-color);font-weight: 400;font-size: 14px;// letter-spacing: 1px;} footer .footer-wrapper .meta {display: flex;flex-direction: column;justify-content: space-between;align-items: flex-end;gap: 20px;}footer .footer-wrapper .meta form {width: 100%;}footer .footer-wrapper .meta form h5 {font-size: 15px;font-weight: 500;color: rgba(230, 230, 230, 1);text-transform: capitalize;margin-bottom: 20px;}footer .footer-wrapper .meta form .fillable {display: flex;height: 60px;border-radius: 20px;overflow: hidden;width: 100%;}footer .footer-wrapper .meta form .fillable input {flex: 1;border: none;padding: 0px 20px;height: 100%;min-width: 20px;background-color: rgba(17, 17, 17, 1);color: rgba(230, 230, 230, 1);font-size: 13px;font-weight: 400;}footer .footer-wrapper .meta form .fillable button {width: 100px;border: none;background: #fff;font-size: 16px;background-color: rgba(241, 44, 54, 1);}footer .footer-wrapper .meta a {display: flex;justify-content: center;align-items: center;height: 60px;width: 100%;border-radius: 30px;font-weight: 600;color: rgba(230, 230, 230, 1);background: linear-gradient(125deg, rgba(241,44,54,1) 0%, rgba(171,21,224,1) 100%);} @media screen and (min-width: 880px) {footer .footer-wrapper .main-section {flex-direction: row;justify-content: space-between;}}@media screen and (min-width: 880px) {footer .footer-wrapper .footer-logo {width: 100%;max-width: 320px;}}@media screen and (min-width: 720px) {footer .footer-wrapper .footer-nav {flex-direction: row;}}@media screen and (min-width: 720px) {footer .footer-wrapper .meta {flex-direction: row;}footer .footer-wrapper .meta form {flex: 1;max-width: 640px;}footer .footer-wrapper .meta a {flex: 1;width: 100%;max-width: 320px;}}</style>
+			</div>
+		</div> <!-- wrapper -->
+	<footer>
+		<div class="footer-wrapper">
+			<div class="main-section">
+				<div class="footer-logo">
+					<h3>ACCOUNTBUILDER</h3>
+
+					<div class="social">
+						<ul>
+							<li><a href="https://www.youtube.com/@ACCOUNTBUILDER"><i class="fab fa-youtube"></i></a></li>
+							<li><a href=""><i class="fab fa-whatsapp"></i></a></li>
+							<li><a href="@https://www.tiktok.com/@accountbuilder3?_t=ZM-8vKhmqnV3eo&_r=1"><i class="fab fa-tiktok"></i></a></li>
+							<li><a href="https://t.me:ACCOUNTBUILDER9"><i class="fab fa-telegram"></i></a></li>
+							<li><a href=""><i class="fab fa-instagram"></i></a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="footer-nav">
+					<nav>
+						<ul>
+							<li><a href="http://localhost:8158/I've done.html">home</a></li>
+							<li><a href="http://localhost:8158/I've done.html">About Us</a></li>
+							<li><a href="http://localhost:8158/I've done.html">Coupon</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+
+			<div class="meta">
+				<a href="http://localhost:8158/I've done.html">Get Started</a>
+				<form action="">
+					<h5>subscribe to joinletter</h5>
+					<div class="fillable">
+						<input type="text" placeholder="Email Address">
+						<button><i class="fa-solid fa-magnifying-glass"></i></button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>
